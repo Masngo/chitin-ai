@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "cockroach-cloud": {
+      "url": "https://cockroachlabs.cloud/mcp",
+      "transport": "sse",
+      "capabilities": [
+        "cluster_diagnostics",
+        "sql_execution",
+        "audit_logs"
+      ]
+    }
+  }
+}
