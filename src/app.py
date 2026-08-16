@@ -21,6 +21,33 @@ st.set_page_config(
     layout="wide"
 )
 
+# Custom Cyber Guard CSS Styling
+st.markdown("""
+<style>
+    /* Metric Card Styling */
+    div[data-testid="stMetric"] {
+        background-color: #1E293B;
+        border: 1px solid #334155;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+    div[data-testid="stMetricLabel"] {
+        color: #94A3B8 !important;
+        font-weight: 600;
+    }
+    div[data-testid="stMetricValue"] {
+        color: #38BDF8 !important;
+        font-weight: 700;
+    }
+    /* Code block background */
+    .stCodeBlock {
+        border: 1px solid #334155 !important;
+        border-radius: 8px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 st.title("🛡️ Chitin.ai — Self-Healing Agent Memory System")
 st.markdown("**Autonomous Infrastructure Remediation Platform** powered by **CockroachDB (pgvector + State Persistence)** and **AWS Bedrock**.")
 
@@ -139,9 +166,9 @@ with tab3:
         if incidents:
             for inc in incidents:
                 with st.expander(f"📌 Incident Pattern: {inc.id} — [{inc.incident_type}]"):
-                    st.markdown(f"**Raw Telemetry Logs:**")
+                    st.markdown("**Raw Telemetry Logs:**")
                     st.code(inc.raw_logs, language="log")
-                    st.markdown(f"**Remediation Playbook:**")
+                    st.markdown("**Remediation Playbook:**")
                     st.code(inc.remediation_playbook, language="bash")
         else:
             st.info("No historical incident vectors indexed.")
