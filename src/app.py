@@ -16,33 +16,30 @@ from src.database.cockroach import SessionLocal
 from src.database.models import ActiveRemediation, HistoricalIncident
 
 st.set_page_config(
-    page_title="Chitin.ai | Autonomous Agentic Resilience",
+    page_title="Chitin.ai — Self-Healing Agent Memory System",
     page_icon="🛡️",
     layout="wide"
 )
 
-# Custom Cyber Guard CSS Styling
+# Custom Chitin.ai Dark UI Styling
 st.markdown("""
 <style>
-    /* Metric Card Styling */
     div[data-testid="stMetric"] {
-        background-color: #1E293B;
-        border: 1px solid #334155;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        background-color: #111827;
+        border: 1px solid #1F2937;
+        padding: 16px;
+        border-radius: 8px;
     }
     div[data-testid="stMetricLabel"] {
-        color: #94A3B8 !important;
+        color: #9CA3AF !important;
         font-weight: 600;
     }
     div[data-testid="stMetricValue"] {
         color: #38BDF8 !important;
         font-weight: 700;
     }
-    /* Code block background */
     .stCodeBlock {
-        border: 1px solid #334155 !important;
+        border: 1px solid #1F2937 !important;
         border-radius: 8px;
     }
 </style>
