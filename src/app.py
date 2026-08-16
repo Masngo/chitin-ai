@@ -57,7 +57,23 @@ m4.metric("Agent Recovery SLA", "< 1.2s", "-85% downtime")
 st.divider()
 
 st.sidebar.header("🕹️ Agent & Cluster Controls")
-cluster_id = st.sidebar.text_input("Target Cluster ID", value="cockroach-prod-us-east")
+
+# Interactive Dropdown for Target Cluster Selection
+available_clusters = [
+    "cockroach-prod-us-east-1",
+    "cockroach-prod-us-west-2",
+    "cockroach-prod-eu-central-1",
+    "cockroach-dev-staging-01",
+    "+ Add Custom Cluster ID..."
+]
+
+selected_cluster = st.sidebar.selectbox("Target Cluster ID", available_clusters)
+
+if selected_cluster == "+ Add Custom Cluster ID...":
+    cluster_id = st.sidebar.text_input("Enter Custom Cluster ID:", value="cockroach-custom-01")
+else:
+    cluster_id = selected_cluster
+
 embedding_dim = st.sidebar.selectbox("Vector Embedding Dimension", [1536, 1024, 768])
 chaos_mode = st.sidebar.toggle("💥 Chaos Mode (Simulate Crash Mid-Execution)")
 
@@ -82,7 +98,7 @@ with tab1:
         st.subheader("2. Autonomous Agent Pipeline Execution")
         if run_remediation:
             rem_id = f"rem-{uuid.uuid4().hex[:8]}"
-            st.info(f"Assigned Workflow Execution ID: `{rem_id}`")
+            st.info(f"Assigned Workflow Execution ID: `{rem_id}` | Target: `{cluster_id}`")
             
             with st.status("🧠 AnalystAgent: Performing Cosine Similarity Search...", expanded=True) as status_analyst:
                 st.write("Extracting unstructured log telemetry...")
@@ -98,7 +114,7 @@ with tab1:
             with st.status("⚡ ExecutorAgent: Executing & Checkpointing Playbook...", expanded=True) as status_exec:
                 progress_bar = st.progress(0)
                 
-                st.write("Step 1/3: Validating cluster topology via CockroachDB state...")
+                st.write(f"Step 1/3: Validating cluster topology on `{cluster_id}` via CockroachDB state...")
                 progress_bar.progress(33)
                 time.sleep(0.8)
                 
@@ -123,7 +139,7 @@ with tab1:
                 status_exec.update(label="ExecutorAgent: Playbook Execution Resolved!", state="complete", expanded=False)
 
             st.balloons()
-            st.success(f"Incident `{rem_id}` successfully remediated with zero data loss.")
+            st.success(f"Incident `{rem_id}` on `{cluster_id}` successfully remediated with zero data loss.")
 
 with tab2:
     st.subheader("Live CockroachDB Transactional Checkpoints")
@@ -148,8 +164,8 @@ with tab2:
             st.info("No active remediation checkpoints found.")
     except Exception:
         mock_data = [
-            {"Remediation ID": "rem-8f3a1b2c", "Cluster ID": "cockroach-prod-us-east", "Status": "COMPLETED", "Current Checkpoint Step": "Step 3", "Last Updated": "11:45:12 | 2026-08-16"},
-            {"Remediation ID": "rem-4d2e9f1a", "Cluster ID": "cockroach-prod-us-east", "Status": "IN_PROGRESS", "Current Checkpoint Step": "Step 2", "Last Updated": "11:42:01 | 2026-08-16"},
+            {"Remediation ID": "rem-8f3a1b2c", "Cluster ID": cluster_id, "Status": "COMPLETED", "Current Checkpoint Step": "Step 3", "Last Updated": "11:45:12 | 2026-08-16"},
+            {"Remediation ID": "rem-4d2e9f1a", "Cluster ID": cluster_id, "Status": "IN_PROGRESS", "Current Checkpoint Step": "Step 2", "Last Updated": "11:42:01 | 2026-08-16"},
         ]
         st.dataframe(mock_data, use_container_width=True)
 
