@@ -10,9 +10,14 @@ engine = create_engine(settings.COCKROACH_DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():
-    with engine.connect() as conn:
-        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
-        conn.commit()
+    try:
+        with engine.connect() as conn:
+            logger.info("Ensuring pgvector extension exists...")
+            conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+            conn.commit()
 
-    Base.metadata.create_all(bind=engine)
-    logger.info("CockroachDB Schema initialized successfully.")
+        logger.info("Initializing CockroachDB tables...")
+        Base.metadata.create_all(bind=engine)
+        logger.info("CockroachDB schema initialized successfully.")
+    except Exception as e:
+        logger.warning(f"Database setup skipped (CockroachDB not reachable): {e}")
