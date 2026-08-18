@@ -1,6 +1,4 @@
-cd ~/Desktop/chitin-ai
 
-cat << 'EOF' > README.md
 # 🪳 Chitin.ai — Indestructible Agentic Memory
 
 > **Autonomous Infrastructure Remediation Engine powered by CockroachDB Distributed Vector Search, Managed MCP, and AWS Bedrock.**
