@@ -10,6 +10,12 @@
 
 ---
 
+## 🔗 Quick Links
+
+* **Live Interactive Application:** [https://chitin-ai-dau53pig4dbc8ph2sgekud.streamlit.app](https://chitin-ai-dau53pig4dbc8ph2sgekud.streamlit.app)
+
+---
+
 ## 📌 Problem Statement
 
 When an autonomous AI agent manages production cloud infrastructure, loss of context isn't an inconvenience—it's a critical outage. Traditional state storage fails during unexpected process termination, leading to corrupted execution pipelines and orphaned mitigation tasks.
